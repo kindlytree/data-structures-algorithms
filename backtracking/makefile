@@ -1,0 +1,1 @@
+g++ -std=c++11  sudoku-solver.cpp -o sudoku.exe
