@@ -4,6 +4,9 @@
 ## 编译文件
 - g++ -std=c++11  ***.cpp -o ***.exe
 - g++ -std=c++11  path-sum.cpp -o path-sum.exe
+- g++ -std=c++11  n-queens.cpp -o n-queens.exe
+- g++ -std=c++11  word-break.cpp -o word-break.exe
+
 
 ## 各算法分支
 
