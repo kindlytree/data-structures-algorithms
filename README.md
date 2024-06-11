@@ -6,8 +6,7 @@
 - g++ -std=c++11  path-sum.cpp -o path-sum.exe
 - g++ -std=c++11  n-queens.cpp -o n-queens.exe
 - g++ -std=c++11  word-break.cpp -o word-break.exe
-- g++ -std=c++11  coin-change.cpp -o coin-change.exe
-- g++ -std=c++11  coin-change.cpp -o coin-change-ii.exe
+
 
 ## 各算法分支
 
