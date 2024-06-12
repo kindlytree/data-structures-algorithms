@@ -14,26 +14,31 @@ class QuickSortVisualization(Scene):
     def partition(self, array, start, end):
         pivot_index = start
         pivot_value = array[end]
-        pivot_label = self.create_pivot_label(pivot_index)
+        pivot_label = self.create_label(end, "Pivot", UP, 'red')
+        index_label = self.create_label(start, "pivot_index", DOWN, 'red')
+        i_label = self.create_label(start, "i", UP, 'yellow')
         self.add(pivot_label)
+        self.add(index_label)
+        self.add(i_label)
         
-        low_arrow = self.create_arrow(pivot_index, "DOWN", DOWN)
-        high_arrow = self.create_arrow(end, "UP", UP)
+        low_arrow = self.create_arrow(pivot_index, "DOWN", DOWN, RED)
+        high_arrow = self.create_arrow(end, "UP", UP, YELLOW)
         self.add(low_arrow, high_arrow)
         
         for i in range(start, end):
             high_arrow.next_to(self.bars[i], UP)
+            i_label.next_to(self.bars[i], UP+np.array((0, -0.7, 0.0)))
             self.wait(0.5)
-            if array[i] < pivot_value:
+            if array[i] < pivot_value: #第一次的时候是第一个元素和最后一个比较，如果比最后一个要小，其实没有发生置换（因为i和pivot_value的值相等），但pivot_index会加1，只要后面有一次array[i]比pivot值要大，这时跳过，pivot_index处保留了较大的值
                 array[i], array[pivot_index] = array[pivot_index], array[i]
                 self.swap_bars(i, pivot_index)
                 pivot_index += 1
                 low_arrow.next_to(self.bars[pivot_index], DOWN)
-                pivot_label.next_to(self.bars[pivot_index], UP)
+                index_label.next_to(self.bars[pivot_index], DOWN)
         
         array[pivot_index], array[end] = array[end], array[pivot_index]
         self.swap_bars(pivot_index, end)
-        self.remove(pivot_label, low_arrow, high_arrow)
+        self.remove(pivot_label, low_arrow, high_arrow, index_label, i_label)
         
         return pivot_index
 
@@ -79,13 +84,13 @@ class QuickSortVisualization(Scene):
         bar.add(rectangle, number)
         return bar
     
-    def create_pivot_label(self, index):
-        pivot_label = Text("Pivot", color=RED, font_size=24)
-        pivot_label.next_to(self.bars[index], UP)
-        return pivot_label
+    def create_label(self, index, text, direction, color_str):
+        label = Text(text, color = RED if color_str == 'red' else YELLOW, font_size=24)
+        label.next_to(self.bars[index], direction)
+        return label
 
-    def create_arrow(self, index, dic_str, direction):
-        arrow = Arrow(start=UP if dic_str == "UP" else DOWN, end=UP if dic_str == "DOWN" else DOWN, color=YELLOW)
+    def create_arrow(self, index, dic_str, direction, color):
+        arrow = Arrow(start=UP if dic_str == "UP" else DOWN, end=UP if dic_str == "DOWN" else DOWN, color=color)
         arrow.next_to(self.bars[index], direction)
         return arrow
 
